@@ -1,0 +1,33 @@
+# cargo-features = ["edition2021"]
+
+[package]
+name = "redis_dict"
+version = "0.1.0"
+authors = ["Ephraim Feldblum <ephraim.feldblum@redis.com>"]
+edition = "2021"
+build = "build.rs"
+description = "Rust bindings for Redis dict"
+license = "LicenseRef-RSALv2 OR SSPL-1.0"
+rust-version = "1.70"
+
+# [lib]
+# crate-type = ["cdylib", "rlib"]
+# name = "redis_dict"
+
+[dependencies]
+libc = "0.2"
+# cstr = "0.2"
+
+[build-dependencies]
+bindgen = "0.69"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+threadpool = "1.8"
+# iai = "0.1"
+# anyhow = "1.0"
+# benchmark-rs = "0.1"
+
+[[bench]]
+name = "bench_rcstr"
+harness = false

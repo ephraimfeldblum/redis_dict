@@ -1,0 +1,18 @@
+   Compiling redis_dict v0.1.0 (/home/ephraim_feldblum/git/redis_dict)
+    Finished test [unoptimized + debuginfo] target(s) in 0.33s
+     Running unittests src/lib.rs (target/debug/deps/redis_dict-91d78f6ba7bf631f)
+
+running 16 tests
+test bindings::bindgen_test_layout_dict ... ok
+test bindings::bindgen_test_layout_dictIterator ... ok
+test bindings::bindgen_test_layout_dictStats ... ok
+test bindings::bindgen_test_layout_dictType ... ok
+test dict_tests::basic_mem ... ok
+test dict_tests::clear ... ok
+test bindings::bindgen_test_layout_dictDefragFunctions ... ok
+test dict_tests::creation ... okerror: invalid valgrind usage: 
+error: test failed, to rerun pass `--lib`
+
+Caused by:
+  process didn't exit successfully: `/home/ephraim_feldblum/.cargo/bin/cargo-valgrind /home/ephraim_feldblum/git/redis_dict/target/debug/deps/redis_dict-91d78f6ba7bf631f` (exit status: 1)
+note: test exited abnormally; to see the full output pass --nocapture to the harness.

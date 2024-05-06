@@ -1,0 +1,8 @@
+redis/
+
+**/target/
+Cargo.lock
+**/*.rs.bk
+
+.vscode
+.gdb_history
