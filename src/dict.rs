@@ -23,9 +23,9 @@ pub struct Dict {
 }
 
 impl Dict {
-    pub fn new(mut dt: bindings::dictType) -> Self {
+    pub fn new(dt: &bindings::dictType) -> Self {
         Self {
-            inner: unsafe { NonNull::new_unchecked(bindings::dictCreate(&mut dt)) },
+            inner: unsafe { NonNull::new_unchecked(bindings::dictCreate(dt as *const _ as _)) },
         }
     }
 

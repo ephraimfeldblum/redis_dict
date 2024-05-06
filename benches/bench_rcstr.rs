@@ -13,7 +13,7 @@ use std::rc::Rc;
 
 fn bench_rcstr_basic(load: u64) {
     let val = "asdsasd" as *const _ as _;
-    let mut d = Dict::new(RCSTR_DICT_TYPE);
+    let mut d = Dict::new(&RCSTR_DICT_TYPE);
     for i in 0..load {
       let key: Rc<str> = i.to_string().into();
       d.add(&key as *const _ as _, val).unwrap();

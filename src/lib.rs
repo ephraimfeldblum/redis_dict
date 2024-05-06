@@ -26,14 +26,14 @@ mod dict_tests {
 
     #[test]
     fn creation() {
-        let dict = Dict::new(INT_DICT_TYPE);
+        let dict = Dict::new(&INT_DICT_TYPE);
         assert_eq!(dict.len(), 0);
         assert_eq!(dict.num_buckets(), 0);
         assert_eq!(dict.mem_usage(), 0);
     }
     #[test]
     fn insertion() {
-        let mut dict = Dict::new(INT_DICT_TYPE);
+        let mut dict = Dict::new(&INT_DICT_TYPE);
         assert!(dict.add(u64_as_key(0), "hello" as *const _ as _).is_ok());
         assert_eq!(dict.len(), 1);
         assert_ne!(dict.num_buckets(), 0);
@@ -43,7 +43,7 @@ mod dict_tests {
     }
     #[test]
     fn deletion() {
-        let mut dict = Dict::new(INT_DICT_TYPE);
+        let mut dict = Dict::new(&INT_DICT_TYPE);
         let hello = "hello" as *const _ as _;
         assert!(dict.add(u64_as_key(0), hello).is_ok());
         assert_eq!(dict.len(), 1);
@@ -60,7 +60,7 @@ mod dict_tests {
     fn clear() {
         let hello = "hello" as *const _ as _;
         let world = "world" as *const _ as _;
-        let mut dict = Dict::new(INT_DICT_TYPE);
+        let mut dict = Dict::new(&INT_DICT_TYPE);
         assert!(dict.add(u64_as_key(0), hello).is_ok());
         assert!(dict.add(u64_as_key(1), world).is_ok());
         dict.clear();
@@ -73,7 +73,7 @@ mod dict_tests {
     #[test]
     fn retrieval() {
         let hello = "hello" as *const _ as _;
-        let mut dict = Dict::new(INT_DICT_TYPE);
+        let mut dict = Dict::new(&INT_DICT_TYPE);
         assert!(dict.fetch_value(u64_as_key(0)).is_none());
         assert!(dict.add(u64_as_key(0), hello).is_ok());
         let val = dict.fetch_value(u64_as_key(0));
@@ -86,7 +86,7 @@ mod dict_tests {
     fn basic_mem() {
         let entry_size = Entry::mem_usage();
         let sizeof_entry = std::mem::size_of::<Entry>();
-        let mut dict = Dict::new(INT_DICT_TYPE);
+        let mut dict = Dict::new(&INT_DICT_TYPE);
         assert_eq!(0, dict.mem_usage());
         let hello = "hello" as *const _ as _;
         assert!(dict.add(u64_as_key(0), hello).is_ok());
@@ -122,14 +122,14 @@ mod dict_tests {
 
     #[test]
     fn rcstr_creation() {
-        let dict = Dict::new(RCSTR_DICT_TYPE);
+        let dict = Dict::new(&RCSTR_DICT_TYPE);
         assert_eq!(dict.len(), 0);
         assert_eq!(dict.num_buckets(), 0);
         assert_eq!(dict.mem_usage(), 0);
     }
     #[test]
     fn rcstr_insertion() {
-        let mut dict = Dict::new(RCSTR_DICT_TYPE);
+        let mut dict = Dict::new(&RCSTR_DICT_TYPE);
         let key0: Rc<str> = "0".into();
         let key1: Rc<str> = "1".into();
         assert!(dict.add(&key0 as *const _ as _, "hello" as *const _ as *const _ as _).is_ok());
@@ -141,7 +141,7 @@ mod dict_tests {
     }
     #[test]
     fn rcstr_deletion() {
-        let mut dict = Dict::new(RCSTR_DICT_TYPE);
+        let mut dict = Dict::new(&RCSTR_DICT_TYPE);
         let key: Rc<str> = "0".into();
         let hello = "hello" as *const _ as *const _ as _;
         assert!(dict.add(&key as *const _ as _, hello).is_ok());
@@ -161,7 +161,7 @@ mod dict_tests {
         let world = "world" as *const _ as *const _ as _;
         let key0: Rc<str> = "0".into();
         let key1: Rc<str> = "1".into();
-        let mut dict = Dict::new(RCSTR_DICT_TYPE);
+        let mut dict = Dict::new(&RCSTR_DICT_TYPE);
         assert!(dict.add(&key0 as *const _ as _, hello).is_ok());
         assert!(dict.add(&key1 as *const _ as _, world).is_ok());
         dict.clear();
@@ -175,7 +175,7 @@ mod dict_tests {
     fn rcstr_retrieval() {
         let hello = "hello" as *const _ as *const _ as _;
         let key: Rc<str> = "0".into();
-        let mut dict = Dict::new(RCSTR_DICT_TYPE);
+        let mut dict = Dict::new(&RCSTR_DICT_TYPE);
         assert!(dict.fetch_value(&key as *const _ as _).is_none());
         assert!(dict.add(&key as *const _ as _, hello).is_ok());
         let val = dict.fetch_value(&key as *const _ as _);
@@ -188,7 +188,7 @@ mod dict_tests {
     fn rcstr_basic_mem() {
         let entry_size = Entry::mem_usage();
         let sizeof_entry = std::mem::size_of::<Entry>();
-        let mut dict = Dict::new(RCSTR_DICT_TYPE);
+        let mut dict = Dict::new(&RCSTR_DICT_TYPE);
         let key: Rc<str> = "0".into();
         assert_eq!(0, dict.mem_usage());
         let hello = "hello" as *const _ as _;
@@ -232,7 +232,7 @@ mod dict_tests {
             pool.execute(move|| {
                 tx.send(|| {
                     let val = "asdsasd" as *const _ as _;
-                    let mut d = Dict::new(RCSTR_DICT_TYPE);
+                    let mut d = Dict::new(&RCSTR_DICT_TYPE);
                     let key: Rc<str> = "0".to_string().into();
                     d.add(&key as *const _ as _, val).unwrap();
                 }).unwrap();
