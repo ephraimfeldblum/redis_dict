@@ -44,8 +44,15 @@ impl Dict {
     }
     pub fn num_buckets(&self) -> usize {
         let d = self.as_ref();
-        (if d.ht_size_exp[0] == -1 { 0 } else { 1usize << (d.ht_size_exp[0]) }) + 
-        (if d.ht_size_exp[1] == -1 { 0 } else { 1usize << (d.ht_size_exp[1]) })
+        (if d.ht_size_exp[0] == -1 {
+            0
+        } else {
+            1usize << (d.ht_size_exp[0])
+        }) + (if d.ht_size_exp[1] == -1 {
+            0
+        } else {
+            1usize << (d.ht_size_exp[1])
+        })
     }
     pub fn expand(&mut self, size: usize) -> RedisDictResult {
         unsafe { bindings::dictExpand(self.as_mut(), size as _).into_result() }

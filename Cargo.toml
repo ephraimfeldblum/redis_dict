@@ -16,6 +16,9 @@ rust-version = "1.70"
 
 [dependencies]
 libc = "0.2"
+redis-custom-allocator = { git = "https://github.com/iddm/redis-custom-allocator" }
+allocator-api2 = "0.2"
+hashbrown = "0.14"
 # cstr = "0.2"
 
 [build-dependencies]
@@ -31,3 +34,6 @@ threadpool = "1.8"
 [[bench]]
 name = "bench_rcstr"
 harness = false
+
+[features]
+allocator_api = []

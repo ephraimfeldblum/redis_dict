@@ -1,3 +1,6 @@
+
+#![feature(allocator_api)]
+
 #[allow(warnings)]
 #[allow(non_upper_case_globals)]
 #[allow(non_camel_case_types)]
@@ -12,6 +15,7 @@ pub mod dict;
 pub mod dicttypes;
 pub mod entry;
 pub mod iter;
+pub mod allocator;
 
 #[cfg(test)]
 mod dict_tests {
@@ -223,7 +227,7 @@ mod dict_tests {
     #[test]
     fn rcstr_multithreaded() {
         let n_workers = 4;
-        let n_jobs = 8;
+        let n_jobs = 64;
         let pool = ThreadPool::new(n_workers);
 
         let (tx, _) = channel();
@@ -234,7 +238,7 @@ mod dict_tests {
                     let val = "asdsasd" as *const _ as _;
                     let mut d = Dict::new(&RCSTR_DICT_TYPE);
                     let key: Rc<str> = "0".to_string().into();
-                    d.add(&key as *const _ as _, val).unwrap();
+                    assert!(d.add(&key as *const _ as _, val).is_ok());
                 }).unwrap();
             });
         }
