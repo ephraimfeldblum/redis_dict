@@ -102,3 +102,28 @@ pub const RCSTR_DICT_TYPE: bindings::dictType = bindings::dictType {
     _bitfield_1: bindings::__BindgenBitfieldUnit::new([0; 1]),
     __bindgen_padding_0: [0; 7],
 };
+
+unsafe extern "C" fn large_val_dup(_: *mut bindings::dict, val: *const c_void) -> *mut c_void {
+    let val = val as *const [usize; 8];
+    Box::into_raw(Box::new(val.as_ref().unwrap().clone())) as _
+}
+unsafe extern "C" fn large_val_drop(_: *mut bindings::dict, val: *mut c_void) {
+    drop(Box::from_raw(val as *mut [usize; 8]))
+}
+
+pub const LARGE_VAL_DICT_TYPE: bindings::dictType = bindings::dictType {
+    hashFunction: Some(rcstr_hash),
+    keyDup: Some(rcstr_dup),
+    valDup: Some(large_val_dup),
+    keyCompare: Some(rcstr_cmp),
+    keyDestructor: Some(rcstr_drop),
+    valDestructor: Some(large_val_drop),
+    resizeAllowed: None,
+    rehashingStarted: None,
+    rehashingCompleted: None,
+    dictMetadataBytes: None,
+    userdata: std::ptr::null_mut(),
+    _bitfield_align_1: [],
+    _bitfield_1: bindings::__BindgenBitfieldUnit::new([0; 1]),
+    __bindgen_padding_0: [0; 7],
+};

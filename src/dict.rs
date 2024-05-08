@@ -135,6 +135,8 @@ impl Dict {
         unsafe { bindings::dictEmpty(self.as_mut(), None) }
     }
     pub fn mem_usage(&self) -> usize {
+        std::mem::size_of_val(self) + 
+        std::mem::size_of_val(self.as_ref()) + 
         unsafe { bindings::dictMemUsage(self.as_ref()) }
     }
 }
